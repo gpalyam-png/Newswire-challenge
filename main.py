@@ -37,7 +37,7 @@ def search_location(driver, location):
     search_input.send_keys(location + Keys.RETURN)
 
 def main():
-    driver = webdriver.Firefox(executable_path='/bin/GeckoDriverManager().install()'())
+    driver = webdriver.Firefox(executable_path='/bin/GeckoDriverManager().install()',service=service)
     try:
         login(driver, "http://newswire.storyful.com", "geetha@example.com", "Password1@")
         search_location(driver, "APAC")
