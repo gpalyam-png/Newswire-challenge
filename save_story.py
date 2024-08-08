@@ -50,7 +50,7 @@ def add_to_favorites(driver, story_identifier):
         print(f"An error occurred: {e}")
 
 def main():
-    driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
+    driver = webdriver.Firefox(executable_path='/bin/GeckoDriverManager().install())
     driver = webdriver.Firefox(options=options, service=service)
     driver.get("http://newswire.storyful.com")
 
