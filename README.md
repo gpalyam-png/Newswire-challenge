@@ -8,3 +8,9 @@ Requirements for Test automation environment setup:
 * pip install coverage   //for code coverage
 * pip install selenium    // for selenium libraries
 * pip install webdriver-manager // for web drivers
+  
+## Test Coverage 
+
+* coverage run -m unittest discover
+* coverage report -m
+
