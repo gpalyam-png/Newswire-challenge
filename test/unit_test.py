@@ -8,7 +8,7 @@ from webdriver_manager.firefox import GeckoDriverManager
 
 class TestWebApp(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox(executable_path='/bin/GeckoDriverManager().install()'.install())
+        self.driver = webdriver.Firefox(executable_path='/bin/GeckoDriverManager().install()'.,service=service)
 
 
 
