@@ -13,33 +13,46 @@ options.log.level = "trace"
 options.headless = True
 
 # Set up Selenium with GeckoDriver on a specific port
-service = Service(executable_path=GeckoDriverManager().install(), port=4444)
+service = Service(executable_path='/bin/GeckoDriverManager().install()', port=4444)
 driver = webdriver.Firefox(options=options, service=service)
 driver.get("https://newswire.storyful.com/")
-try:
-    # Wait until the location picker is clickable
-    location_picker = WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.ID, "//input[@type='text']"))  # Adjust the ID accordingly
-    )
-    location_picker.click()
+def select_location(driver, location_tags):
+    """
+    Selects location tags within the search modal.
 
-    # Select multiple regions, assuming these elements can be selected by name
-    regions = ['AFRICA', 'APAC', 'EUROPE', 'MIDDLE EAST', 'NORTH AMERICA', 'LATIN AMERICA']
-    for region in regions:
-        driver.find_element(By.NAME, "//button[contains(text(),'APAC')]").click()  # Adjust selector method as necessary
+    Args:
+    driver: Instance of WebDriver.
+    location_tags: List of location tags to be selected like ['AFRICA', 'APAC'].
+    """
+    try:
+        # Wait for the modal to be visible and interactable
+        WebDriverWait(driver, 10).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, "div.modal-content"))
+        )
 
-    # Apply the selections
-    apply_button = driver.find_element(By.XPATH, "//button[contains(text(),'Apply')]")
-    apply_button.click()
+        # Loop through each tag and click on it
+        for tag in location_tags:
+            tag_element = WebDriverWait(driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, f"//button[contains(text(), '{tag}')]"))
+            )
+            tag_element.click()
 
-    # Optionally, check for some expected result or state to verify the outcome
-    # This might be a new page load, a popup, or a specific element's visibility
-    WebDriverWait(driver, 10).until(
-        EC.visibility_of_element_located((By.CLASS_NAME, "//span[contains(text(),'Europe (+1)')]"))  # Example condition
-    )
-    print("Test Passed: Locations applied successfully.")
+        # Click the apply button
+        apply_button = driver.find_element(By.XPATH, "//button[contains(text(), 'Apply')]")
+        apply_button.click()
 
-except Exception as e:
-    print(f"Test Failed: {str(e)}")
-finally:
-    driver.quit()
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+def main():
+    driver = webdriver.Firefox(executable_path='/bin/GeckoDriverManager().install()', service=service)
+    driver.get("https://newswire.storyful.com/")
+    try:
+        # Assuming login and navigation to the modal has been handled
+        select_location(driver, ['AFRICA', 'APAC', 'EUROPE', 'MIDDLE EAST', 'NORTH AMERICA', 'LATIN AMERICA'])
+
+    finally:
+        driver.quit()
+
+if __name__ == "__main__":
+    main()
